@@ -15,6 +15,53 @@ END
 
 ```
 
+## 文件输入输出2 指定文件位置PPT20
+
+> 
+```
+program main
+implicit none
+character(len=100):: fileDir,fileName,fileSuffix
+real(kind=8):: a
+fileDir = 'C:Users air Desktop \\' ! 比如桌面
+fileName = '03013‘,
+fileSuffix = '.txt'
+open(111,file = ADJUSTL(trim(fileDir))//&&adjustl(trim(fileName))//adjustl(trim(fileSuffix)))
+read(111,*) a !读桌面文件 03013.dat 的内容赋值给变量 a
+write(*,*) a
+end
+
+```
+## 用牛顿方法计算一个数的平方
+> 让我感受到了算法之美
+[牛顿法知识点]（https://mp.weixin.qq.com/s/9skfmNa3CADhuoT2blUbGA）
+
+```
+
+PROGRAM Newton
+! Square rooting with Newton
+IMPLICIT NONE
+REAL A ! number to be square rooted
+INTEGER I ! iteration counter
+REAL X ! approximate square root of A
+WRITE( *, 10, ADVANCE = 'NO' ) 'Enter number to be square rooted: '
+10 FORMAT( A )
+READ(*,*) A
+X = 1 ! initial guess (why not?)
+DO I = 1, 6
+X = (X + A / X) / 2
+write(*,*) X
+ENDDO
+Write(*,*)
+Write(*,*) 'Fortran 90''s value:', SQRT( A )
+END
+
+
+```
+
+
+
+## 期末成绩
 
 ```
 PROGRAM Final_Mark
