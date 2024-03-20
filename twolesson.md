@@ -34,7 +34,10 @@ end
 ```
 ## 用牛顿方法计算一个数的平方
 > 让我感受到了算法之美
-[牛顿法知识点]（https://mp.weixin.qq.com/s/9skfmNa3CADhuoT2blUbGA）
+牛顿法的知识点补充：
+https://mp.weixin.qq.com/s/9skfmNa3CADhuoT2blUbGA
+
+
 
 ```
 
@@ -60,8 +63,10 @@ END
 ```
 
 
-
 ## 期末成绩
+## 逻辑
+![image](https://github.com/ytu2023/fortran/assets/145260038/3fa5783b-a28b-4325-b1d4-625976516818)
+
 
 ```
 PROGRAM Final_Mark
@@ -97,6 +102,63 @@ END
 ```
 ## 运行结果
 这个需要文件操作，我没运行
+
+## 常量
+
+```
+!常量的定义与赋值
+REAL, PARAMETER :: Pi = 3.141593
+INTEGER, PARAMETER :: Two = 2
+REAL, PARAMETER :: OneOver2Pi = 1 / (2 * Pi)
+REAL, PARAMETER :: PiSquared = Pi ** Two
+
+CHARACTER (LEN = *), PARAMETER:: Message = 'Press ENTER to continue'
+!定义了一个字符串常量
+
+```
+
+
+## 内在函数
+> 到目前为止，我们可以编写一些简单的程序了，但是，最有兴趣的问题是设计到一些特殊的数学函数， FORTRAN 含有许多的内在函数。
+> 
+
+```
+
+PROGRAM Projectile
+IMPLICIT NONE
+REAL, PARAMETER :: g = 9.8 ! acceleration due to gravity
+REAL, PARAMETER :: Pi = 3.1415927 ! a well known constant
+REAL A ! launch angle in degrees
+REAL T ! time of flight
+REAL Theta ! direction at time T in degrees
+REAL U ! launch velocity
+REAL V ! resultant velocity
+REAL Vx ! horizontal velocity
+REAL Vy ! vertical velocity
+REAL X ! horizontal displacement
+REAL Y ! vertical displacement
+
+write (*,*)'shu ru  A,T,U'
+READ*, A, T, U
+
+
+A = A * Pi / 180 ! convert angle to radians
+
+X = U * COS( A ) * T
+Y = U * SIN( A ) * T-g * T * T / 2.
+Vx= U * COS( A)
+Vy= U * SIN( A )-g * T
+V = SQRT(Vx * Vx + Vy * Vy)
+Theta = ATAN(Vy / Vx ) * 180 / Pi
+PRINT*, 'x: ', X, 'y: ', Y
+PRINT*, 'V: ', V, 'Theta: ', Theta
+END
+
+
+```
+## 
+
+
 
 
 
