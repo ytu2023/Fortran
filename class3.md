@@ -51,7 +51,7 @@ END PROGRAM GradeReport
 
 ## 嵌套选择
 
-···
+```
 Disc = B * B
 4 * A * C
 Outer
@@ -67,7 +67,6 @@ B SQRT( Disc )) / (2 * A)
 END IF Inner
 END IF Outer
 ```
-
 ##循环嵌套Do
 
 > 计算利率
@@ -107,38 +106,177 @@ PROGRAM LoanPayments
 END PROGRAM LoanPayments
 
 ```
+### 结果测试
+![image](https://github.com/ytu2023/fortran/assets/145260038/d36e99ab-204f-4239-9528-c993945c3fed)
+![image](https://github.com/ytu2023/fortran/assets/145260038/2201a098-9cf8-4e79-ae50-893d6248fb4c)
 
 
-##
+## 猜数游戏
 >
 
 ```
+PROGRAM NumberGuess
+    IMPLICIT NONE
+
+    real :: FtnNum ! Fortran number to guess
+    INTEGER :: MyGuess ! User's guess
+
+    ! Generate a random number between 1 and 100
+    CALL RANDOM_NUMBER(FtnNum)
+    FtnNum = 1 + INT(FtnNum * 100)
+
+    DO
+        WRITE( *, '("Your guess: ")', ADVANCE = 'NO' )
+        READ*, MyGuess
+
+        IF (MyGuess > FtnNum) THEN
+            PRINT*, 'Too high. Try again'
+        ELSE IF (MyGuess < FtnNum) THEN
+            PRINT*, 'Too low. Try again'
+        ELSE
+            PRINT*, 'Well done!'
+            EXIT
+        END IF
+
+        IF (MyGuess == FtnNum) EXIT
+    END DO
+
+END PROGRAM NumberGuess
+
 
 ```
 
+## 结果
+![image](https://github.com/ytu2023/fortran/assets/145260038/796fff33-e756-4827-bc37-3bf64b9c04c8)
 
-##
->
+
+
+## 用do从文件中读取数值
+
+> DATA.txt文件
+
+```
+PROGRAM CalculateMean
+    IMPLICIT NONE
+
+    REAL :: A, SUM
+    INTEGER :: N = 0
+    INTEGER :: IO = 0
+
+    ! Open file 'DATA' for reading
+    OPEN(1, FILE='DATA.txt')
+
+    SUM = 0
+
+    ! Read values from file until end of file is reached
+    DO WHILE (IO == 0)
+        READ(1, *, IOSTAT=IO) A  ! Read a value from file
+        IF (IO == 0) THEN
+            SUM = SUM + A   ! Add the value to the sum
+            N = N + 1       ! Increment the count of values read
+            PRINT*, A       ! Print the value read
+        END IF
+    END DO
+
+    ! Close the file
+    CLOSE(1)
+
+    ! Calculate and print the mean
+    PRINT*, "Mean:", SUM / N
+
+END PROGRAM CalculateMean
+
+```
+## 结果和数据
+![image](https://github.com/ytu2023/fortran/assets/145260038/4743f69b-3d63-4f47-9e90-4acfc210b860)
+
+
+## 泰勒公式SINX与sin（x）
+> 该程序计算正弦函数的泰勒级数近似值，并将其与 Fortran 内置的正弦函数进行比较：
+
+```
+PROGRAM Taylor
+    ! Computes sine(x) from Taylor series
+    REAL, PARAMETER :: Pi = 3.14159278
+    INTEGER :: K = 1 ! term counter
+    INTEGER :: MaxTerms = 10 ! max number of terms
+    REAL :: Err = 1e-6 ! max error allowed
+    REAL :: Sine ! sum of series
+    REAL :: Term ! general term in series
+    REAL :: X ! angle in radians
+
+    PRINT*, 'Angle in degrees?'
+    READ*, X
+    X = X * Pi / 180 ! convert to radians
+    Term = X ! first term in series
+    Sine = Term
+
+    DO WHILE ((ABS(Term) > Err) .AND. (K <= MaxTerms))
+        Term = Term * (-1)**K * X**((2 * K) + 1) / REAL((2 * K) + 1) ! Calculate next term
+        K = K + 1 ! Increment term counter
+        Sine = Sine + Term ! Add term to sum
+    END DO
+
+    IF (ABS(Term) > Err) THEN ! Check if series converged
+        PRINT*, 'Series did not converge'
+    ELSE
+        PRINT*, 'After', K-1, 'terms Taylor series gives', Sine
+        PRINT*, 'Fortran 90 intrinsic function: ', SIN(X)
+    END IF
+
+END PROGRAM Taylor
+
+```
+### 计算结果
+![image](https://github.com/ytu2023/fortran/assets/145260038/d141a813-420d-46ed-8afe-3c113e18643e)
+
+
+## 内部子函数 牛顿法求F(x）=0 
+> 
+
+```
+PROGRAM Newton
+    ! Solves f(x) = 0 by Newton's method
+    IMPLICIT NONE
+    INTEGER :: Its = 0 ! iteration counter
+    INTEGER :: MaxIts = 20 ! maximum iterations
+    LOGICAL :: Converged = .FALSE. ! convergence flag
+    REAL :: Eps = 1e-6 ! maximum error
+    REAL :: X = 2.0 ! starting guess
+    
+    DO WHILE (.NOT. Converged .AND. Its < MaxIts)
+        X = X - F(X) / DF(X) ! Newton's method
+        PRINT*, X, F(X)
+        Its = Its + 1
+        Converged = ABS(F(X)) <= Eps
+    END DO
+    
+    IF (Converged) THEN
+        PRINT*, 'Newton converged after', Its, 'iterations'
+    ELSE
+        PRINT*, 'Newton diverged after', Its, 'iterations'
+    END IF
+    
+CONTAINS
+
+    FUNCTION F(X)
+        ! problem is to solve f(x) = 0
+        REAL :: F, X
+        F = X ** 3 + X
+    END FUNCTION F
+
+    FUNCTION DF(X)
+        ! first derivative of f(x)
+        REAL :: DF, X
+        DF = 3 * X ** 2 + 1
+    END FUNCTION DF
+
+END PROGRAM Newton
 
 ```
 
-```
-
-
-##
->
-
-```
-
-```
-
-##
->
-
-```
-
-```
-
+### 结果 
+![image](https://github.com/ytu2023/fortran/assets/145260038/5b54d03d-c9ef-4536-9c24-7fe0814ccbcc)
 
 
 ##
